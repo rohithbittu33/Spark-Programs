@@ -1,0 +1,22 @@
+def parseLine(line: String) = {
+	val fliends =line.split(",")
+	val place = fliends(0)
+	val tempCat = fliends(2)
+	val temp = fliends(3).toFloat/10.0
+	(place, tempCat,temp)
+	}
+
+val lines = sc.textFile("/user/studentlogin20204631/1800.csv")
+
+val linesA = lines.map(parseLine)
+
+val linesB = linesA.filter(x => x._2 == "TMIN")
+linesB.collect
+
+val linesC = linesB.map(x => (x._1, x._3))
+linesC.collect
+
+import scala.math.min
+
+val result = linesC.reduceByKey((x,y) => min(x,y))
+result.collect
